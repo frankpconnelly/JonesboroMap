@@ -1,0 +1,48 @@
+/* Sourced from bootstrap 3.0 and Leaflet CSS. Leaflet starts on line 6811.
+
+/* CUSTOM CSS */
+
+.layer-list {
+    margin: 10px;
+}
+
+/* Make sure checkboxes and labels are displayed nicely */
+.layer-list .checkbox-inline {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.layer-list input[type="checkbox"] {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+
+
+Map Container
+#map {
+    height: 100%; /* Ensure the map takes up the full height */
+    width: 100%;  /* Ensure the map takes up the full width */
+    position: relative;
+  }
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #main-content {
+    height: calc(100% - 50px); /* Adjust based on the height of your navbar */
+  }
+  
+  .container-fluid, .row {
+    height: 100%;
+  }
+  
+  .col-sm-2, .col-sm-10 {
+    height: 100%;
+  }

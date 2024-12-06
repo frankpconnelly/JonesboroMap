@@ -1,0 +1,210 @@
+/* General Body and HTML Styles */
+body, html {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+body {
+    font: 100% Helvetica, sans-serif;
+}
+
+/* Map Container */
+#map {
+    height: 94%;
+    position: relative;
+  }  
+
+#basemapCollapsible {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 2;
+}
+
+#basemapG {
+    max-height: 200px;
+}
+
+#home {
+    position: absolute;
+    top: 95px;
+    left: 20px;
+    z-index: 2;
+}
+
+#legend_units {
+    height: 200px;
+}
+
+#search {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 8px;
+    right: 8px;
+}
+
+#layerlist, #layerlist_units {
+    padding: 10px;
+}
+
+/* Sidebar and Panels */
+.sidebar {
+    margin: 3px 0 0 3px;
+}
+
+.col-sm-3 {
+    padding-right: 0;
+}
+
+.panel {
+    border-radius: 0;
+}
+
+.panel-heading {
+    font-size: 1.5em;
+}
+
+.sidebar .panel-heading {
+    padding: 5px 15px;
+}
+
+.sidebar .panel-group .panel {
+    border-radius: 0;
+}
+
+/* Navbar Styles */
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+.navbar-inverse {
+    background-color: #3575ad;
+    border-color: #c1c1c1;
+}
+
+.navbar-brand {
+    color: #fff !important;
+}
+
+/* Collapsible and Overlay */
+#collapse1 {
+    overflow-y: auto;
+    max-height: 600px;
+}
+
+.hide {
+    display: none !important;
+}
+
+.overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    background-color: #fff;
+}
+
+#loading {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
+
+.busy-icon {
+    background: url(/img/5ad4ee.gif) 50% no-repeat;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    width: 45px;
+    height: 45px;
+    z-index: 4;
+}
+
+/* Legend and Layer Items */
+.custom-legend-container {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.layer-item-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.layer-item-first-row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.layer-item-checkbox, .layer-item-toggler {
+    font-size: 18px;
+}
+
+.layer-item-layername {
+    font-size: 12px;
+    color: #333;
+    margin-left: 5px;
+    margin-top: 3px;
+}
+
+.layer-item-second-row {
+    display: flex;
+    justify-content: flex-start;
+    padding: 5px 0 5px 40px;
+}
+
+.layer-item-icon {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #e6e6fa;
+}
+
+.unique-value-legend {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    margin: 2px 0;
+}
+
+/* Basemaps */
+#basemaps {
+    right: 250px;
+    top: 7px;
+}
+
+/* Event Points */
+.point {
+    border-radius: 8px;
+}
+
+.event-point, .point {
+    width: 8px;
+    height: 8px;
+}
+
+/* Fullscreen Mode */
+.fullscreen {
+    position: fixed !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/*# sourceMappingURL=main.css.map */
