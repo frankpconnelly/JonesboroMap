@@ -27,10 +27,9 @@
   <!-- jQuery and Bootstrap JS -->
   <script src="//code.jquery.com/jquery.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-
 </head>
 <body>
-  
+
   <div id="nav" class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -43,18 +42,19 @@
   <div id="main-content" class="container-fluid">
     <div class="row">
       <div id="sidebar" class="sidebar col-sm-2">
-
-        <!-- Sidebar for layer toggles -->
-        <h4>Layers</h4>
-        <form id="layerForm" class="layer-list">
-          <!-- Checkboxes will be added here dynamically -->
+        <!-- Sidebar for dynamic layer toggles -->
+        <h4>Map Layers</h4>
+        <form id="mapForm" class="layer-list">
+          <!-- Dynamic layer checkboxes will be added here dynamically -->
         </form>
 
-        <!-- Sidebar for units toggles -->
+        <!-- Sidebar for feature layer toggles -->
         <h4>Units</h4>
-        <form id="unitsForm" class="layer-list"></form>
-          <!-- Checkboxes will be added here dynamically -->
+        <form id="unitForm" class="layer-list">
+          <!-- Feature layer checkboxes will be added here dynamically -->
+        </form>
       </div>
+
       <div id="map" class="map col-sm-10">
         <!-- ArcGIS JS API map will be rendered here -->
       </div>
@@ -65,9 +65,8 @@
     <div class="busy-icon"></div>
     <div class="overlay"></div>
   </div>
+
+  <!-- Custom JS -->
+  <script src="../js/main.js"></script>
 </body>
-
-<!-- Custom JS -->
-<script src="../js/main.js"></script>
-
 </html>
