@@ -22,9 +22,7 @@ require([
     basemap: "streets"
   });
 
-  // Dynamic map service layer
-  var dynamicLayer = new ArcGISDynamicMapServiceLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer");
-  map.addLayer(dynamicLayer);
+
 
 
 
@@ -133,8 +131,7 @@ require([
   // ************************************** //
   // ************************************** //
 
-  map.addLayer(roadCenterlines);
-  map.addLayer(craigheadCoLines);
+
 
   map.on("load", function() {
     console.log("Map loaded successfully!");
@@ -163,11 +160,6 @@ require([
       var checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.value = flObj.name;
-      // Check if this layer is one of the default ones
-      if (flObj.layer === roadCenterlines || flObj.layer === craigheadCoLines) {
-        checkbox.checked = true;
-      }
-
       checkbox.style.marginRight = "5px";
 
       checkbox.addEventListener('change', function() {
