@@ -2,6 +2,10 @@ require([
   "esri/map",
   "esri/layers/ArcGISDynamicMapServiceLayer",
   "esri/layers/FeatureLayer",
+  "esri/layers/LabelLayer",         // Does this do anything? 
+  "esri/symbols/TextSymbol",        // Does this do anything? 
+  "esri/renderers/SimpleRenderer",  // Does this do anything? 
+  "esri/layers/LabelClass",         // Does this do anything? 
   "dojo/domReady!"
 ], function(Map, ArcGISDynamicMapServiceLayer, FeatureLayer) {
 
@@ -102,6 +106,14 @@ require([
     { name: "Automatic Aid Agreements (29)", layer: automaticAidAgreements }
   ];
 
+  // Enable labels for all feature layers dynamically
+  mapLayers.forEach(function(flObj) {
+    flObj.layer.on("load", function() {
+      console.log(flObj.name + " layer loaded.");
+      flObj.layer.setShowLabels(true); // Enable labels
+    });
+  });
+
 
 
 
@@ -122,26 +134,17 @@ require([
     { name: "Active Calls", layer: activeCalls }
   ];
 
-
-
-
-  // ************************************** //
-  // ************************************** //
-  // -----==DEFAULT FEATURES TO SHOW==----- //
-  // ************************************** //
-  // ************************************** //
-
-
-
-  map.on("load", function() {
-    console.log("Map loaded successfully!");
-    createMapLayerToggles();
-    createUnitLayerToggles();
+// Enable labels for all unit layers dynamically
+unitLayers.forEach(function(ulObj) {
+  ulObj.layer.on("load", function() {
+    console.log(ulObj.name + " layer loaded.");
+    ulObj.layer.setShowLabels(true);
   });
+});
 
 
 
-
+  
 
   // *********************************** //
   // *********************************** //
@@ -185,10 +188,9 @@ require([
 
 
 
-
   // *********************************** //
   // *********************************** //
-  // ----==UNIT FEATURE CHECKBOXES==---- //
+  // -==CREATE UNIT FEATURE CHECKBOXES== //
   // *********************************** //
   // *********************************** //
 
@@ -211,6 +213,11 @@ require([
       checkbox.addEventListener('change', function() {
         if (this.checked) {
           map.addLayer(ulObj.layer);
+          ulObj.layer.on("load", function() {
+            console.log(ulObj.name + " layer loaded.");
+            ulObj.layer.setShowLabels(true);
+            console.log(ulObj.name + " label loaded.");
+          })
         } else {
           map.removeLayer(ulObj.layer);
         }
@@ -223,5 +230,21 @@ require([
     });
   
     console.log("Unit layer checkboxes created.");
-  }  
+  }
+
+
+
+
+
+  // *********************************** //
+  // *********************************** //
+  // --------==FUNCTION CALLS==--------- //
+  // *********************************** //
+  // *********************************** //
+
+  map.on("load", function() {
+    console.log("Map loaded successfully!");
+    createMapLayerToggles();
+    createUnitLayerToggles();
+  });
 });
