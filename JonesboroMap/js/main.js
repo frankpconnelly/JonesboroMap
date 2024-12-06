@@ -1,59 +1,54 @@
 require([
   "esri/map",
   "esri/layers/ArcGISDynamicMapServiceLayer",
+  "esri/layers/FeatureLayer",
   "dojo/domReady!"
-], function(Map, ArcGISDynamicMapServiceLayer) {
+], function(Map, ArcGISDynamicMapServiceLayer, FeatureLayer) {
 
-  // Set the default visible layers: Road Centerlines (36) and Craighead County Lines (52)
+  // Default visible layers for the dynamic map
   var defaultVisibleLayers = [36, 52];
 
-  // Create the map centered on Jonesboro, AR
+  // Create the map
   var map = new Map("map", {
     center: [-90.65, 35.84],
     zoom: 11,
-    basemap: "streets" // Using an ArcGIS basemap for simplicity
+    basemap: "streets"
   });
 
+  // Add dynamic map service layer
   var dynamicLayer = new ArcGISDynamicMapServiceLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer");
-
-  // Add layer to map
   map.addLayer(dynamicLayer);
 
-  dynamicLayer.on("load", function(evt) {
+  // Add feature layer for units
+  var unitsLayer = new ArcGISDynamicMapServiceLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer");
+  map.addLayer(unitsLayer);
+
+  // Create layer toggles for the dynamic layer
+  dynamicLayer.on("load", function() {
     console.log("Dynamic layer loaded.");
-
-    var layerInfos = dynamicLayer.layerInfos; // array of sub-layer info objects
+    var layerInfos = dynamicLayer.layerInfos;
     var layerForm = document.getElementById('layerForm');
-    layerForm.innerHTML = ""; // Clear any previous content
+    layerForm.innerHTML = ""; // Clear previous content
 
-    // Initially set the visible layers
+    // Set initial visible layers
     dynamicLayer.setVisibleLayers(defaultVisibleLayers);
 
     // Create checkboxes for each sub-layer
     layerInfos.forEach(function(info) {
-      // Create label and checkbox
       var label = document.createElement('label');
       label.className = "checkbox-inline";
 
       var checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.value = info.id;
-
-      // Check if this layer is in the default visible layers
-      checkbox.checked = (defaultVisibleLayers.indexOf(info.id) !== -1);
-
+      checkbox.checked = defaultVisibleLayers.indexOf(info.id) !== -1;
       checkbox.style.marginRight = "5px";
+
+      // Event listener for layer visibility toggle
       checkbox.addEventListener('change', function() {
         var checkedBoxes = layerForm.querySelectorAll('input[type=checkbox]:checked');
-        var newVisibleLayers = Array.prototype.slice.call(checkedBoxes).map(function(cb) {
-          return parseInt(cb.value, 10);
-        });
-        if (newVisibleLayers.length === 0) {
-          // If no layers selected, hide all layers
-          dynamicLayer.setVisibleLayers([-1]);
-        } else {
-          dynamicLayer.setVisibleLayers(newVisibleLayers);
-        }
+        var newVisibleLayers = Array.from(checkedBoxes).map(cb => parseInt(cb.value, 10));
+        dynamicLayer.setVisibleLayers(newVisibleLayers.length > 0 ? newVisibleLayers : [-1]);
       });
 
       label.appendChild(checkbox);
@@ -62,10 +57,44 @@ require([
       layerForm.appendChild(document.createElement('br'));
     });
 
-    console.log("Layer checkboxes created.");
+    console.log("Dynamic layer checkboxes created.");
+  });
+
+  // Create toggles for the "Units" feature layer
+  unitsLayer.on("load", function() {
+    console.log("Units layer loaded.");
+    var sublayerInfos = unitsLayer.layerInfos;
+    var unitsForm = document.getElementById('unitsForm');
+    unitsForm.innerHTML = ""; // Clear previous content
+
+    // Create checkboxes for each sub-layer in the "Units" layer
+    sublayerInfos.forEach(function(info) {
+      var label = document.createElement('label');
+      label.className = "checkbox-inline";
+
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.value = info.id;
+      checkbox.checked = info.defaultVisibility; // Set based on sub-layer's default visibility
+      checkbox.style.marginRight = "5px";
+
+      // Event listener for sub-layer visibility toggle
+      checkbox.addEventListener('change', function() {
+        var checkedBoxes = unitsForm.querySelectorAll('input[type=checkbox]:checked');
+        var visibleSublayers = Array.from(checkedBoxes).map(cb => parseInt(cb.value, 10));
+        unitsLayer.setVisibleLayers(visibleSublayers.length > 0 ? visibleSublayers : [-1]);
+      });
+
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(info.name));
+      unitsForm.appendChild(label);
+      unitsForm.appendChild(document.createElement('br'));
+    });
+
+    console.log("Units layer checkboxes created.");
   });
 
   map.on("load", function() {
-    console.log("Map and dynamic layer loaded successfully!");
+    console.log("Map loaded successfully!");
   });
 });

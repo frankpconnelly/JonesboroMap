@@ -14,14 +14,6 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="../css/main.css">
 
-<style>
-  calcite-list, calcite-button {
-    --calcite-color-text-1: #3c83b7;
-    --calcite-color-text-2: #3c83b7;
-    --calcite-color-text-3: #3c83b7;
-  }
-</style>
-
   <script>
     var dojoConfig = {
       parseOnLoad: true,
@@ -38,6 +30,7 @@
 
 </head>
 <body>
+  
   <div id="nav" class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -46,20 +39,28 @@
       <div id="search"></div>
     </div>
   </div>
+
   <div id="main-content" class="container-fluid">
     <div class="row">
       <div id="sidebar" class="sidebar col-sm-2">
+
         <!-- Sidebar for layer toggles -->
         <h4>Layers</h4>
         <form id="layerForm" class="layer-list">
           <!-- Checkboxes will be added here dynamically -->
         </form>
+
+        <!-- Sidebar for units toggles -->
+        <h4>Units</h4>
+        <form id="unitsForm" class="layer-list"></form>
+          <!-- Checkboxes will be added here dynamically -->
       </div>
       <div id="map" class="map col-sm-10">
         <!-- ArcGIS JS API map will be rendered here -->
       </div>
     </div>
   </div>
+
   <div id="loading">
     <div class="busy-icon"></div>
     <div class="overlay"></div>
