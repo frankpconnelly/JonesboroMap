@@ -194,24 +194,32 @@ require([
   ];
 
   // *********************************** //
-  // -----==UNIT FEATURE VARIABLES==----- //
+  // -----==UNIT FEATURE VARIABLES==---- //
   // *********************************** //
 
-  // Define unit feature layers
+  // Define Active Units feature layer
   var activeUnits = new FeatureLayer({
     url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/1",
-    visible: false
+    visible: true
   });
 
+  // Define Active Calls feature layer
   var activeCalls = new FeatureLayer({
-    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/2",
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/6",
+    visible: true
+  });
+
+  // Define Cleared Calls feature layer
+  var clearedCalls = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/0",
     visible: false
   });
 
-  // Define unit layers array
+  // Define Active Units layer array
   var unitLayers = [
     { name: "Active Units", layer: activeUnits },
-    { name: "Active Calls", layer: activeCalls }
+    { name: "Active Calls", layer: activeCalls },
+    { name: "Cleared Calls", layer: clearedCalls}
   ];
 
   // ******************************************* //
@@ -309,30 +317,44 @@ require([
     createUnitLayerToggles();
 
     // Set interval to refresh Active Units layer every 5 seconds
-    var refreshInterval = 5000; // 5000 milliseconds = 5 seconds
+    var ActiveUnitsRefreshInterval    = 5000;   // 5 seconds
+    var ActiveCallsRefreshInterval    = 10000;  // 10 seconds
+    var ClearedCallsRefreshInterval   = 30000;  // 30 seconds
 
     // Ensure the layer is loaded before attempting to refresh
     activeUnits.when(function() {
       console.log("Setting up refresh interval for Active Units layer.");
       setInterval(function() {
         refreshLayer(activeUnits);
-      }, refreshInterval);
+      }, ActiveUnitsRefreshInterval);
     }).catch(function(error) {
       console.error("Error loading Active Units layer for refresh setup:", error);
     });
 
-    // Optionally, set up refresh for Active Calls layer
+    // Set interval to refresh Active Calls layer
     activeCalls.when(function() {
       console.log("Setting up refresh interval for Active Calls layer.");
       setInterval(function() {
         refreshLayer(activeCalls);
-      }, refreshInterval);
+      }, ActiveCallsRefreshInterval);
     }).catch(function(error) {
       console.error("Error loading Active Calls layer for refresh setup:", error);
+    });
+
+    // Set interval to refresh Cleared Calls layer
+    clearedCalls.when(function() {
+      console.log("Setting up refresh interval for Cleared Calls layer.");
+      setInterval(function() {
+        refreshLayer(clearedCalls);
+      }, ClearedCallsRefreshInterval);
+    }).catch(function(error) {
+      console.error("Error loading Cleared Calls layer for refresh setup:", error);
     });
 
   }).catch(function(error) {
     console.error("Error loading the map:", error);
   });
 
+}).catch(function(error) {
+  console.error("Error loading the map:", error);
 });
