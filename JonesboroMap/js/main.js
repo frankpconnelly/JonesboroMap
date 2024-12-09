@@ -353,8 +353,5 @@ require([
 
   }).catch(function(error) {
     console.error("Error loading the map:", error);
-  });
-
-}).catch(function(error) {
-  console.error("Error loading the map:", error);
-});
+  })
+})
