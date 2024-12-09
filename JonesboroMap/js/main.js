@@ -5,6 +5,7 @@ require([
   "esri/views/MapView",
   "esri/layers/FeatureLayer",
   "esri/symbols/TextSymbol",
+  "esri/symbols/Font",
   "esri/layers/support/LabelClass", // Corrected module path
   "dojo/domReady!"
 ], function(
@@ -12,6 +13,7 @@ require([
   MapView,
   FeatureLayer,
   TextSymbol,
+  Font,
   LabelClass
 ) {
 
