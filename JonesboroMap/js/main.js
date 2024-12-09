@@ -262,19 +262,6 @@ require([
       ulObj.layer.fields.forEach(function(field) {
         console.log(`${ulObj.name} Field: ${field.name}`);
       });
-
-      // Check if 'OfficerName' exists
-      var officerNameField = ulObj.layer.fields.find(function(field) {
-        return field.name === "OfficerName";
-      });
-
-      if (officerNameField) {
-        console.log(`'OfficerName' field exists in ${ulObj.name} layer.`);
-        enableLabels(ulObj.layer, "OfficerName");
-        console.log(`${ulObj.name} labels enabled.`);
-      } else {
-        console.error(`'OfficerName' field does NOT exist in ${ulObj.name} layer.`);
-      }
     }).catch(function(error) {
       console.error(`Error loading ${ulObj.name} layer:`, error);
     });
