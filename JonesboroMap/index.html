@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jonesboro Map</title>
 
-  <!-- ArcGIS API for JavaScript (3.x) CSS -->
-  <link rel="stylesheet" href="https://js.arcgis.com/3.23/esri/css/esri.css">
+  <!-- ArcGIS API for JavaScript (4.x) CSS -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="../css/bootstrap.css">
@@ -14,6 +14,7 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="../css/main.css">
 
+  <!-- Dojo Configuration (Optional: Remove if not needed) -->
   <script>
     var dojoConfig = {
       parseOnLoad: true,
@@ -21,15 +22,16 @@
     };
   </script>
 
-  <!-- ArcGIS API for JavaScript -->
-  <script src="https://js.arcgis.com/3.23/"></script>
+  <!-- ArcGIS API for JavaScript (4.x) -->
+  <script src="https://js.arcgis.com/4.23/"></script>
 
   <!-- jQuery and Bootstrap JS -->
-  <script src="//code.jquery.com/jquery.js"></script>
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 
+  <!-- Navigation Bar -->
   <div id="nav" class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -39,34 +41,38 @@
     </div>
   </div>
 
+  <!-- Main Content Area -->
   <div id="main-content" class="container-fluid">
     <div class="row">
+      
+      <!-- Sidebar for Dynamic Layer Toggles -->
       <div id="sidebar" class="sidebar col-sm-2">
-        <!-- Sidebar for dynamic layer toggles -->
         <h4>Map Layers</h4>
         <form id="mapForm" class="layer-list">
-          <!-- Dynamic layer checkboxes will be added here dynamically -->
+          <!-- Dynamic map layer checkboxes will be inserted here -->
         </form>
 
-        <!-- Sidebar for feature layer toggles -->
         <h4>Units</h4>
         <form id="unitForm" class="layer-list">
-          <!-- Feature layer checkboxes will be added here dynamically -->
+          <!-- Dynamic unit layer checkboxes will be inserted here -->
         </form>
       </div>
 
+      <!-- Map Display Area -->
       <div id="map" class="map col-sm-10">
         <!-- ArcGIS JS API map will be rendered here -->
       </div>
+
     </div>
   </div>
 
+  <!-- Loading Indicator -->
   <div id="loading">
     <div class="busy-icon"></div>
     <div class="overlay"></div>
   </div>
 
-  <!-- Custom JS -->
+  <!-- Custom JavaScript -->
   <script src="../js/main.js"></script>
 </body>
 </html>

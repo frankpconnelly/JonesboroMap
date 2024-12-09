@@ -1,75 +1,166 @@
+// main.js for ArcGIS API for JavaScript 4.x
+
 require([
-  "esri/map",
-  "esri/layers/ArcGISDynamicMapServiceLayer",
+  "esri/Map",
+  "esri/views/MapView",
   "esri/layers/FeatureLayer",
-  "esri/layers/LabelLayer",         // Does this do anything? 
-  "esri/symbols/TextSymbol",        // Does this do anything? 
-  "esri/renderers/SimpleRenderer",  // Does this do anything? 
-  "esri/layers/LabelClass",         // Does this do anything? 
+  "esri/symbols/TextSymbol",
+  "esri/layers/support/LabelClass", // Corrected module path
   "dojo/domReady!"
-], function(Map, ArcGISDynamicMapServiceLayer, FeatureLayer) {
+], function(
+  Map,
+  MapView,
+  FeatureLayer,
+  TextSymbol,
+  LabelClass
+) {
 
-
-
-
-
-  // *********************************** //
   // *********************************** //
   // --------==CREATE THE MAP==--------- //
   // *********************************** //
-  // *********************************** //
 
-  // Create the map
-  var map = new Map("map", {
-    center: [-90.65, 35.84],
-    zoom: 11,
-    basemap: "streets"
+  // Create the Map
+  var map = new Map({
+    basemap: "streets-vector" // Using vector basemap for better labeling
   });
 
+  // Create the MapView
+  var view = new MapView({
+    container: "map", // Reference to the DOM node with id "map"
+    map: map,
+    center: [-90.65, 35.84], // Longitude, latitude
+    zoom: 11
+  });
 
-
-
-
-
-
-  // *********************************** //
   // *********************************** //
   // -----==MAP FEATURE VARIABLES==----- //
   // *********************************** //
-  // *********************************** //
 
   // Define map feature layers
-  var addressPointNENA = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/31");
-  var fireHydrants = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/32");
-  var fireStations = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/33");
-  var publicSchools = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/43");
-  var stormDrainManholes = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/34");
-  var roadCenterlines = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/36");
-  var pipeInventoryPipelines = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/35");
-  var overpasses = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/44");
-  var railroadCOJ = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/60");
-  var railroadAHTD = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/45");
-  var waterways = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/46");
-  var animalControlDistricts = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/47");
-  var asuProperty = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/48");
-  var cityESN = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/49");
-  var countyESNAreas = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/50");
-  var codeEnforcementBoundaries2023 = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/38");
-  var craigheadCoCities = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/51");
-  var craigheadCoLines = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/52");
-  var fdRescueDist2021 = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/53");
-  var fdServiceDist2012 = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/54");
-  var fdStationFirstInDist2021 = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/55");
-  var fdStationDist2015 = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/59");
-  var fdTruck2021 = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/56");
-  var jonesboroAirport = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/58");
-  var fireDeptBrushTrucks = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/42");
-  var jonesboroCityLimits = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/39");
-  var parcels = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/40");
-  var policeDistricts2022 = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/41");
-  var countyFireDistricts2023 = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/30");
-  var countySOPatrolDistricts = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/61");
-  var automaticAidAgreements = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/29");
+  var addressPointNENA = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/31",
+    visible: false
+  });
+  var fireHydrants = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/32",
+    visible: false
+  });
+  var fireStations = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/33",
+    visible: false
+  });
+  var publicSchools = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/43",
+    visible: false
+  });
+  var stormDrainManholes = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/34",
+    visible: false
+  });
+  var roadCenterlines = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/36",
+    visible: false
+  });
+  var pipeInventoryPipelines = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/35",
+    visible: false
+  });
+  var overpasses = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/44",
+    visible: false
+  });
+  var railroadCOJ = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/60",
+    visible: false
+  });
+  var railroadAHTD = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/45",
+    visible: false
+  });
+  var waterways = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/46",
+    visible: false
+  });
+  var animalControlDistricts = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/47",
+    visible: false
+  });
+  var asuProperty = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/48",
+    visible: false
+  });
+  var cityESN = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/49",
+    visible: false
+  });
+  var countyESNAreas = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/50",
+    visible: false
+  });
+  var codeEnforcementBoundaries2023 = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/38",
+    visible: false
+  });
+  var craigheadCoCities = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/51",
+    visible: false
+  });
+  var craigheadCoLines = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/52",
+    visible: false
+  });
+  var fdRescueDist2021 = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/53",
+    visible: false
+  });
+  var fdServiceDist2012 = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/54",
+    visible: false
+  });
+  var fdStationFirstInDist2021 = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/55",
+    visible: false
+  });
+  var fdStationDist2015 = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/59",
+    visible: false
+  });
+  var fdTruck2021 = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/56",
+    visible: false
+  });
+  var jonesboroAirport = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/58",
+    visible: false
+  });
+  var fireDeptBrushTrucks = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/42",
+    visible: false
+  });
+  var jonesboroCityLimits = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/39",
+    visible: false
+  });
+  var parcels = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/40",
+    visible: false
+  });
+  var policeDistricts2022 = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/41",
+    visible: false
+  });
+  var countyFireDistricts2023 = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/30",
+    visible: false
+  });
+  var countySOPatrolDistricts = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/61",
+    visible: false
+  });
+  var automaticAidAgreements = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Shared_Data/Craighead_Public_Safety_Data_with_Surrounding_Counties2024_2/MapServer/29",
+    visible: false
+  });
 
   // Define map layers array
   var mapLayers = [
@@ -106,27 +197,20 @@ require([
     { name: "Automatic Aid Agreements (29)", layer: automaticAidAgreements }
   ];
 
-  // Enable labels for all feature layers dynamically
-  mapLayers.forEach(function(flObj) {
-    flObj.layer.on("load", function() {
-      console.log(flObj.name + " layer loaded.");
-      flObj.layer.setShowLabels(true); // Enable labels
-    });
-  });
-
-
-
-
-
-  // ************************************ //
-  // ************************************ //
+  // *********************************** //
   // -----==UNIT FEATURE VARIABLES==----- //
-  // ************************************ //
-  // ************************************ //
+  // *********************************** //
 
   // Define unit feature layers
-  var activeUnits = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/1")
-  var activeCalls = new FeatureLayer("https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/2")
+  var activeUnits = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/1",
+    visible: false
+  });
+
+  var activeCalls = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/2",
+    visible: false
+  });
 
   // Define unit layers array
   var unitLayers = [
@@ -134,23 +218,69 @@ require([
     { name: "Active Calls", layer: activeCalls }
   ];
 
-// Enable labels for all unit layers dynamically
-unitLayers.forEach(function(ulObj) {
-  ulObj.layer.on("load", function() {
-    console.log(ulObj.name + " layer loaded.");
-    ulObj.layer.setShowLabels(true);
+  // ********************************************** //
+  // -----==ENABLE LABELS FOR FEATURE LAYERS==----- //
+  // ********************************************** //
+
+  // Function to enable labels for a layer
+  function enableLabels(layer, fieldName) {
+    if (!fieldName) {
+      console.warn(`No fieldName provided for labeling on layer: ${layer.title || layer.url}`);
+      return;
+    }
+
+    var labelClass = new LabelClass({
+      labelExpression: `{${fieldName}}`, // e.g., {OfficerName}
+      symbol: new TextSymbol({
+        color: "black",
+        haloColor: "white",
+        haloSize: "1px",
+        font: {
+          family: "Arial",
+          size: 12,
+          weight: "bold"
+        }
+      }),
+      labelPlacement: "above-center",
+      // Optional: Define scale ranges
+      maxScale: 0, // No maximum scale
+      minScale: 0   // No minimum scale
+    });
+
+    layer.labelingInfo = [labelClass];
+    layer.labelsVisible = true;
+  }
+
+  // Apply labels to unit layers
+  unitLayers.forEach(function(ulObj) {
+    ulObj.layer.when(function() {
+      console.log(`${ulObj.name} layer loaded.`);
+
+      // Debug: Log all field names
+      ulObj.layer.fields.forEach(function(field) {
+        console.log(`${ulObj.name} Field: ${field.name}`);
+      });
+
+      // Check if 'OfficerName' exists
+      var officerNameField = ulObj.layer.fields.find(function(field) {
+        return field.name === "OfficerName";
+      });
+
+      if (officerNameField) {
+        console.log(`'OfficerName' field exists in ${ulObj.name} layer.`);
+        enableLabels(ulObj.layer, "OfficerName");
+        console.log(`${ulObj.name} labels enabled.`);
+      } else {
+        console.error(`'OfficerName' field does NOT exist in ${ulObj.name} layer.`);
+      }
+    }).catch(function(error) {
+      console.error(`Error loading ${ulObj.name} layer:`, error);
+    });
   });
-});
 
-
-
-  
-
-  // *********************************** //
-  // *********************************** //
-  // ----==MAP FEATURE CHECKBOXES==----- //
-  // *********************************** //
-  // *********************************** //
+  // ******************************************* //
+  // -----==CREATE MAP FEATURE CHECKBOXES==----- //
+  // ******************************************* //
 
   function createMapLayerToggles() {
     var featureLayerForm = document.getElementById('mapForm');
@@ -165,14 +295,12 @@ unitLayers.forEach(function(ulObj) {
       checkbox.value = flObj.name;
       checkbox.style.marginRight = "5px";
 
+      // Initialize checkbox based on layer visibility
+      checkbox.checked = flObj.layer.visible;
+
       checkbox.addEventListener('change', function() {
-        if (this.checked) {
-          // Add the layer to the map
-          map.addLayer(flObj.layer);
-        } else {
-          // Remove the layer from the map
-          map.removeLayer(flObj.layer);
-        }
+        flObj.layer.visible = this.checked;
+        console.log(`${flObj.name} layer visibility set to ${this.checked}`);
       });
 
       label.appendChild(checkbox);
@@ -184,67 +312,81 @@ unitLayers.forEach(function(ulObj) {
     console.log("Map layer checkboxes created.");
   }
 
-
-
-
-
-  // *********************************** //
-  // *********************************** //
-  // -==CREATE UNIT FEATURE CHECKBOXES== //
-  // *********************************** //
-  // *********************************** //
+  // ******************************************** //
+  // -----==CREATE UNIT FEATURE CHECKBOXES==----- //
+  // ******************************************** //
 
   function createUnitLayerToggles() {
     var unitForm = document.getElementById('unitForm');
     unitForm.innerHTML = "";
-  
+
     unitLayers.forEach(function(ulObj) {
       var label = document.createElement('label');
       label.className = "checkbox-inline";
-  
+
       var checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.value = ulObj.name;
       checkbox.style.marginRight = "5px";
-  
-      // Unit layers are off by default
-      checkbox.checked = false;
-  
+
+      // Initialize checkbox based on layer visibility
+      checkbox.checked = ulObj.layer.visible;
+
       checkbox.addEventListener('change', function() {
-        if (this.checked) {
-          map.addLayer(ulObj.layer);
-          ulObj.layer.on("load", function() {
-            console.log(ulObj.name + " layer loaded.");
-            ulObj.layer.setShowLabels(true);
-            console.log(ulObj.name + " label loaded.");
-          })
-        } else {
-          map.removeLayer(ulObj.layer);
-        }
+        ulObj.layer.visible = this.checked;
+        console.log(`${ulObj.name} layer visibility set to ${this.checked}`);
       });
-  
+
       label.appendChild(checkbox);
       label.appendChild(document.createTextNode(ulObj.name));
       unitForm.appendChild(label);
       unitForm.appendChild(document.createElement('br'));
     });
-  
+
     console.log("Unit layer checkboxes created.");
   }
 
+  // *************************************** //
+  // -----==SET 5 SECOND REFRESH RATE==----- //
+  // *************************************** //
 
+  function refreshLayer(layer) {
+    layer.refresh();
+    console.log(`${layer.title || layer.url} refreshed at ${new Date().toLocaleTimeString()}`);
+  }
 
+  // **************************** //
+  // -----==FUNCTION CALLS==----- //
+  // **************************** //
 
-
-  // *********************************** //
-  // *********************************** //
-  // --------==FUNCTION CALLS==--------- //
-  // *********************************** //
-  // *********************************** //
-
-  map.on("load", function() {
+  view.when(function() {
     console.log("Map loaded successfully!");
+
+    // Add all map layers to the map
+    map.addMany(mapLayers.map(obj => obj.layer));
+
+    // Add all unit layers to the map
+    map.addMany(unitLayers.map(obj => obj.layer));
+
+    // Create checkboxes for toggling layers
     createMapLayerToggles();
     createUnitLayerToggles();
+
+    // Set interval to refresh Active Units layer every 5 seconds
+    var refreshInterval = 5000; // 5000 milliseconds = 5 seconds
+
+    // Ensure the layer is loaded before attempting to refresh
+    activeUnits.when(function() {
+      console.log("Setting up refresh interval for Active Units layer.");
+      setInterval(function() {
+        refreshLayer(activeUnits);
+      }, refreshInterval);
+    }).catch(function(error) {
+      console.error("Error loading Active Units layer for refresh setup:", error);
+    });
+
+  }).catch(function(error) {
+    console.error("Error loading the map:", error);
   });
+
 });
