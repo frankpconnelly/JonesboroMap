@@ -4,17 +4,11 @@ require([
   "esri/Map",
   "esri/views/MapView",
   "esri/layers/FeatureLayer",
-  "esri/symbols/TextSymbol",
-  "esri/symbols/Font",
-  "esri/layers/support/LabelClass", // Corrected module path
   "dojo/domReady!"
 ], function(
   Map,
   MapView,
-  FeatureLayer,
-  TextSymbol,
-  Font,
-  LabelClass
+  FeatureLayer
 ) {
 
   // *********************************** //
@@ -220,53 +214,6 @@ require([
     { name: "Active Calls", layer: activeCalls }
   ];
 
-  // ********************************************** //
-  // -----==ENABLE LABELS FOR FEATURE LAYERS==----- //
-  // ********************************************** //
-
-  // Function to enable labels for a layer
-  function enableLabels(layer, fieldName) {
-    if (!fieldName) {
-      console.warn(`No fieldName provided for labeling on layer: ${layer.title || layer.url}`);
-      return;
-    }
-
-    var labelClass = new LabelClass({
-      labelExpression: `{${fieldName}}`, // e.g., {OfficerName}
-      symbol: new TextSymbol({
-        color: "black",
-        haloColor: "white",
-        haloSize: "1px",
-        font: {
-          family: "Arial",
-          size: 12,
-          weight: "bold"
-        }
-      }),
-      labelPlacement: "above-center",
-      // Optional: Define scale ranges
-      maxScale: 0, // No maximum scale
-      minScale: 0   // No minimum scale
-    });
-
-    layer.labelingInfo = [labelClass];
-    layer.labelsVisible = true;
-  }
-
-  // Apply labels to unit layers
-  unitLayers.forEach(function(ulObj) {
-    ulObj.layer.when(function() {
-      console.log(`${ulObj.name} layer loaded.`);
-
-      // Debug: Log all field names
-      ulObj.layer.fields.forEach(function(field) {
-        console.log(`${ulObj.name} Field: ${field.name}`);
-      });
-    }).catch(function(error) {
-      console.error(`Error loading ${ulObj.name} layer:`, error);
-    });
-  });
-
   // ******************************************* //
   // -----==CREATE MAP FEATURE CHECKBOXES==----- //
   // ******************************************* //
@@ -372,6 +319,16 @@ require([
       }, refreshInterval);
     }).catch(function(error) {
       console.error("Error loading Active Units layer for refresh setup:", error);
+    });
+
+    // Optionally, set up refresh for Active Calls layer
+    activeCalls.when(function() {
+      console.log("Setting up refresh interval for Active Calls layer.");
+      setInterval(function() {
+        refreshLayer(activeCalls);
+      }, refreshInterval);
+    }).catch(function(error) {
+      console.error("Error loading Active Calls layer for refresh setup:", error);
     });
 
   }).catch(function(error) {
