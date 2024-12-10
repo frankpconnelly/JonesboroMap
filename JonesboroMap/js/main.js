@@ -197,22 +197,22 @@ require([
   // -----==UNIT FEATURE VARIABLES==---- //
   // *********************************** //
 
-  // Define Active Units feature layer
-  var activeUnits = new FeatureLayer({
-    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/1",
-    visible: true
-  });
-
   // Define Active Calls feature layer
   var activeCalls = new FeatureLayer({
-    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/6",
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/7",
     visible: true
   });
 
   // Define Cleared Calls feature layer
   var clearedCalls = new FeatureLayer({
-    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/0",
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/8",
     visible: false
+  });
+
+  // Define Active Units feature layer
+  var activeUnits = new FeatureLayer({
+    url: "https://jbmcsql.jonesboro.org:6443/arcgis/rest/services/Hosted/Jonesboro___Active_Calls_and_Units_Map/FeatureServer/9",
+    visible: true
   });
 
   // Define Active Units layer array
